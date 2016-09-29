@@ -22,37 +22,14 @@ ORDER BY quantityOrderedSubtotal DESC;
 
 
 -- A report for each product line give count the number of orders
--- Note:
---     1. COUNT() omitts NULLs
---     2. products 1:1 orderdetails, no need to join orders
---     3. 1 productLine can have many orders. After joining orderdetails table, 1 product line may have NULL records of orderdetails
--- the 1st selection only get productLines which have orders
 SELECT
     p.productLine,
-    -- NULL values won't be counted
-    COUNT(od.orderNumber) as numOfOrders
-FROM products p
+    SUM(IFNULL(od.quantityOrdered, 0)) AS quantityOrdered
+FROM productlines pl
+LEFT JOIN products p ON pl.productLine=p.productLine
 LEFT JOIN orderdetails od ON p.productCode=od.productCode
 GROUP BY p.productLine
-UNION
--- the 2nd selection count the productLines which have no orders
--- but, must exclude ones that exists in the 1st selection results (because their NULLs have already been counted as 0s)
-SELECT
-    p1.productLine,
-    COUNT(od1.orderNumber) as numOfOrders
-FROM products p1
-LEFT JOIN orderdetails od1 ON p1.productCode=od1.productCode
-WHERE
-    od1.productCode IS NULL AND
-    -- this clause exclude the ones that have been counted by the 1st selection
-    p1.productLine NOT IN (
-        SELECT p2.productLine
-        FROM products p2
-        LEFT JOIN orderdetails od2 ON p2.productCode=od2.productCode
-        WHERE od2.productCode IS NOT NULL
-        GROUP BY p2.productLine
-    )
-GROUP BY p1.productLine;
+ORDER BY quantityOrdered DESC;
 
 
 -- A report that has the office code, manager name and count of the number of employees that report to that manager.
