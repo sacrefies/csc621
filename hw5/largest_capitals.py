@@ -130,21 +130,16 @@ if __name__ == '__main__':
         cities = _read_csv("cities.csv")
         countries = _read_csv("countries.csv")
         if not cities or len(cities) == 0:
-            pass
+            raise RuntimeError("No data read from city file")
+        if not countries or len(countries) == 0:
+            raise RuntimeError("No data read from country file")
         capitals_max_population =\
             _select_capitals_with_max_population(cities, countries)
+        print "Cities:\n"
         for row in capitals_max_population:
             print row
     except Exception as e:
         print "Runtime error happened: %s" % e
         traceback.print_exc()
         exit(1)
-    # test
-    # print "cities count: %d" % len(cities)
-    # print "countries count: %d" % len(countries)
-    # print "some records"
-    # print "cities[4]: ", cities[4]
-    # for i in range(10):
-    #     print "countries[%d]: " % i, countries[i]
-    #
     exit(0)
