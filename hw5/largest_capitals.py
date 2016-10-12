@@ -141,7 +141,7 @@ if __name__ == '__main__':
             _select_capitals_with_max_population(cities, countries)
         for row in capitals_max_population:
             print row
-        print "Cities: %d\n" % len(cities)
+        print "Cities: %d\n" % len(capitals_max_population)
     except Exception as e:
         print "Runtime error happened: %s" % e
         traceback.print_exc()
