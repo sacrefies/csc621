@@ -30,6 +30,10 @@ An example piece of cities.csv looks like:
 Without using any SQL, write a program (in any language) that answers #4 above.
 It will involve using multiple loops and variables (likely arrays/associative
 arrays) as well.
+
+[Note]
+Both cities.csv and countries.csv must be a full dump from their database
+tables.
 """
 
 import csv
@@ -118,10 +122,10 @@ def _select_capitals_with_max_population(cities, countries):
     capital_key = "Capital"
     city_id = "ID"
     # cities with max(population)
-    gourped_cities_max_population = _group_max(cities, groupby_key, sort_key)
+    grouped_cities_max_population = _group_max(cities, groupby_key, sort_key)
     # captital cities
     capital_cities = _join(cities, countries, city_id, capital_key)
-    return _join(capital_cities, gourped_cities_max_population, city_id, city_id)
+    return _join(capital_cities, grouped_cities_max_population, city_id, city_id)
 
 
 # Main entrance
