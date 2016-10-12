@@ -139,9 +139,9 @@ if __name__ == '__main__':
             raise RuntimeError("No data read from country file")
         capitals_max_population =\
             _select_capitals_with_max_population(cities, countries)
-        print "Cities:\n"
         for row in capitals_max_population:
             print row
+        print "Cities: %d\n" % len(cities)
     except Exception as e:
         print "Runtime error happened: %s" % e
         traceback.print_exc()
